@@ -9,6 +9,7 @@
         public $name;
         public $type;
         public $color;
+        public $image;
 
         // Firma Properties
         public $firma_id;
@@ -29,7 +30,8 @@
                     p.id,
                     p.name,
                     p.type,
-                    p.color
+                    p.color,
+                    p.image
                 FROM
                     ' . $this->table . ' p
                 LEFT JOIN
@@ -95,6 +97,7 @@
                     name = :name,
                     type = :type,
                     color = :color,
+                    image = :image,
                     firma_id = :firma_id';
             
             // Prepare statement
@@ -110,6 +113,7 @@
             $stmt->bindParam(':name', $this->name);
             $stmt->bindParam(':type', $this->type);
             $stmt->bindParam(':color', $this->color);
+            $stmt->bindParam(':image', $this->image);
             $stmt->bindParam(':firma_id', $this->firma_id);
 
             // Execute query

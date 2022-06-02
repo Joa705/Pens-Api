@@ -5,7 +5,7 @@ include_once '../../config/Header.php';
 
 // Headers
 header('Content-Type: application/json');
-header('Access-Control-Allow-Methods: PUT');
+header('Access-Control-Allow-Methods: POST');
 
 // New instanse of authorization 
 $auth = new Auth();
@@ -17,7 +17,7 @@ $auth->check_user();
 $auth->verify_user();
 
 // New Request instance
-$request = new Request('PUT');
+$request = new Request('POST');
 
 // Verify method
 $request->veryify_method();
@@ -29,15 +29,20 @@ $db = $database->connect();
 // Create instance of Penn model
 $penn = new Penn($db);
 
-// Get raw data 
-$data = json_decode(file_get_contents('php://input'));
+// Get form data
+$data = array();
+$data['id'] = $_POST['id'];
+$data['name'] = $_POST['name'];
+$data['type'] = $_POST['type'];
+$data['color'] = $_POST['color'];
+$data['firma_id'] = $_POST['firma_id'];
 
 // Add data
-$penn->id = $data->id;
-$penn->name = $data->name;
-$penn->type = $data->type;
-$penn->color = $data->color;
-$penn->firma_id = $data->firma_id;
+$penn->id = $data['id'];
+$penn->name = $data['name'];
+$penn->type = $data['type'];
+$penn->color = $data['color'];
+$penn->firma_id = $data['firma_id'];
 
 // Create new penn
 if($penn->update()) {
@@ -45,3 +50,4 @@ if($penn->update()) {
 } else {
     echo 'Failed to update Penn';
 }
+
