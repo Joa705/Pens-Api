@@ -178,7 +178,7 @@
         }
         
         // query all penns with a spesific firma 
-        public function query_by_firma() {
+        public function read_by_firma() {
             // query
             $query = 'SELECT
                     c.name as firma_name,
@@ -191,14 +191,64 @@
                 LEFT JOIN
                     firma c ON p.firma_id = c.id
                 WHERE
-                    p.firma_id = :firma_id
+                    c.name LIKE "' . $this->firma_name . '"
                 ';  
             
             // Prepare statement
             $stmt = $this->conn->prepare($query);
 
-            // Bind data to query
-            $stmt->bindParam(':firma_id', $this->firma_id);
+            // Execute query
+            $stmt->execute();
+
+            return $stmt;
+        }
+
+        // Read all penns by name
+        public function read_by_name() {
+            // query
+            $query =  'SELECT
+                c.name as firma_name,
+                p.id,
+                p.name,
+                p.type,
+                p.image,
+                p.color
+            FROM
+                ' . $this->table . ' p
+            LEFT JOIN
+                firma c ON p.firma_id = c.id
+            WHERE p.name LIKE "' . $this->name . '"
+            ';  
+
+            // Prepare statement
+            $stmt = $this->conn->prepare($query);
+
+            // Execute query
+            $stmt->execute();
+
+            return $stmt;
+        }   
+
+        // Read all penns by color
+        public function read_by_color() {
+        
+            // query
+            $query =  'SELECT
+                c.name as firma_name,
+                p.id,
+                p.name,
+                p.type,
+                p.image,
+                p.color
+            FROM
+                ' . $this->table . ' p
+            LEFT JOIN
+                firma c ON p.firma_id = c.id
+            WHERE p.color LIKE "' . $this->color . '"
+            ';  
+
+            // Prepare statement
+            $stmt = $this->conn->prepare($query);
 
             // Execute query
             $stmt->execute();

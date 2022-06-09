@@ -103,9 +103,9 @@ if(!isset($errorMSG))
         
         // Create new penn
         if($penn->create()) {
-            echo 'Penn successfully created';
+            echo json_encode(array('message' => 'Penn successfully created', 'status' => true));
         } else {
-            echo 'Failed to create new Penn';
+            echo json_encode(array('message' => 'Failed to create Penn', 'status' => false));
         }
 		
 }

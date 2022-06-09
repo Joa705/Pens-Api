@@ -22,17 +22,12 @@ $db = $database->connect();
 // Create instance of Penn model
 $penn = new Penn($db);
 
-// Check if query string exists
-if(!isset($_GET['firma_id'])){
-    echo json_encode(array('message' => 'No query inputed'));
-    die();
-}
+// Bind user input
+$color_temp = isset($_GET['color']) ? $_GET['color'] : die(); 
+$penn->color = '%' . $color_temp . '%';
 
-// Get query: example 'www.example.com/read?firma_id=3'
-$penn->firma_id = isset($_GET['firma_id']) ? $_GET['firma_id'] : die(); 
-
-// query all pens with for a spesific firma
-$query = $penn->query_by_firma();
+// Penn query
+$query = $penn->read_by_color();
 
 // Check if there is any Penns
 $num = $query->rowCount();
@@ -43,7 +38,7 @@ if ($num > 0){
 
     // PDO::FETCH_ASSOC: returns an array indexed by column name as returned in your result set
     while($row = $query->fetch(PDO::FETCH_ASSOC)){
-        // Extract arrray
+        // Extract array: example $row['id'] => 'id'
         extract($row);
 
         // Create new array with the extracted elements
@@ -52,6 +47,7 @@ if ($num > 0){
             'name' => $name,
             'type' => $type,
             'color' => $color,
+            'image' => $image,
             'firma_name' => $firma_name 
         );
 
