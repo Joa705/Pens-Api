@@ -37,16 +37,33 @@ $data['type'] = $_POST['type'];
 $data['color'] = $_POST['color'];
 $data['firma_id'] = $_POST['firma_id'];
 
-// Collect information from the uploaded file
-$fileName  =  $_FILES['image']['name'];
-$tempPath  =  $_FILES['image']['tmp_name'];
-$fileSize  =  $_FILES['image']['size'];
+
+// If file exists 
+if(isset($_FILES['image'])){
+	// Collect information from the uploaded file
+	$fileName = $_FILES['image']['name'];
+	$tempPath = $_FILES['image']['tmp_name'];
+	$fileSize = $_FILES['image']['size'];
+}
 
 // Check if images exists
 if(empty($fileName))
 {
-	$errorMSG = json_encode(array("message" => "please select image", "status" => false));	
-	echo $errorMSG;
+	// Add data
+	$penn->name = $data['name'];
+	$penn->type = $data['type'];
+	$penn->color = $data['color'];
+	$penn->image = null;
+	$penn->firma_id = $data['firma_id'];
+	
+	// Create new penn
+	if($penn->create()) {
+		echo json_encode(array('message' => 'Penn successfully created', 'status' => true));
+	} else {
+		echo json_encode(array('message' => 'Failed to create Penn', 'status' => false));
+	}
+	die();
+
 }
 else
 {

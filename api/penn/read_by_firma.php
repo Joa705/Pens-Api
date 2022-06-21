@@ -53,6 +53,7 @@ if ($num > 0){
             'name' => $name,
             'type' => $type,
             'color' => $color,
+            'image' => $image,
             'firma_name' => $firma_name 
         );
 

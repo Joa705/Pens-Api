@@ -185,7 +185,8 @@
                     p.id,
                     p.name,
                     p.type,
-                    p.color
+                    p.color,
+                    p.image
                 FROM
                     ' . $this->table . ' p
                 LEFT JOIN
